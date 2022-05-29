@@ -1,0 +1,26 @@
+﻿@model IEnumerable<UrlChanger.Models.Url>
+@{
+    ViewBag.Title = "Все ваши сслыки";
+}
+<a asp-action="Create">Форматировать ссылку</a>
+    @if (Model.Count() > 0)
+    {
+        <table class="table">
+            <tr><td>Оригинальная ссылка</td><td>Модифицированная ссылка</td><td>Редактировать</td><td>Удалить</td></tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.UrlOriginal.AbsoluteUri</td>
+                    <td>@item.UrlModded</td>
+                    <td>
+                        <a type="button" value="ред." asp-action="Edit" asp-route-id="@item.Id">ред.</a>
+                    </td>
+                    <td>
+                        <form asp-action="Delete" asp-route-id="@item.Id">
+                            <input type="submit" value="X" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+    }

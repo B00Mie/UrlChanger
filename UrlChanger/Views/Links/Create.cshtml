@@ -1,0 +1,13 @@
+﻿@model UrlChanger.Models.Url
+@{
+    ViewBag.Title = "Форматирование ссылки";
+}
+<form asp-action="Create" asp-controller="Links">
+    <div class="form-group">
+        <label asp-for="UrlOriginal" class="control-label">Ссылка</label>
+        <input type="text" asp-for="UrlOriginal" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Отправить" class="btn btn-default" />
+    </div>
+</form>
