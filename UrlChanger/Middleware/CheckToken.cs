@@ -25,7 +25,7 @@ namespace UrlChanger.Middleware
             _next = next;
             _appSettings = appSettings.Value;
         }
-        public async Task Invoke(HttpContext context, IUserService userService)
+        public async Task Invoke(HttpContext context, IJWTUserService userService)
         {
             var token = context.Request.Cookies["Authorization"]?.Split(" ").Last();
 
@@ -38,7 +38,7 @@ namespace UrlChanger.Middleware
             await _next.Invoke(context);
         }
 
-        private void AttachUserToContext(HttpContext context, IUserService userService, AppSettings settings, string token)
+        private void AttachUserToContext(HttpContext context, IJWTUserService userService, AppSettings settings, string token)
         {
             try
             {

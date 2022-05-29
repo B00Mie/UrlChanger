@@ -11,6 +11,7 @@ using UrlChanger.Models;
 namespace UrlChanger.Controllers
 {
     [Authorize]
+    //[ApiController]
     public class LinksController : Controller
     {
         private DatabaseRepo databaseRepo;
@@ -19,20 +20,15 @@ namespace UrlChanger.Controllers
             databaseRepo = new DatabaseRepo(context);
         }
         // GET: LinksController
+        //[Route("/Links")]
         public ActionResult Index()
         {
             User user = (User) HttpContext.Items["User"];
             IEnumerable<Url> data = databaseRepo.Urls.GetRecords().Where(x=>x.UserId == user.Id);
             return View(data);
         }
-
-        //// GET: LinksController/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
-
         // GET: LinksController/Create
+        [Route("/Links/Create")]
         public ActionResult Create()
         {
             return View();
@@ -41,10 +37,17 @@ namespace UrlChanger.Controllers
         // POST: LinksController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Route("/Links/Create")]
         public ActionResult Create(Url url)
         {
             Uri urlOriginal = new Uri(url.UrlOriginal.AbsoluteUri);
-            string moddedUrl = FormatString(url.UrlOriginal.AbsoluteUri);
+            string moddedUrl = Helpers.ShortenUrl.Shorten();
+
+            while (databaseRepo.Urls.GetRecords().Where(x => x.UrlModdedPath == moddedUrl).Count() >0)
+            {
+                moddedUrl = Helpers.ShortenUrl.Shorten();
+            }
+
             User user = (User)HttpContext.Items["User"];
 
             url.UrlModdedPath = moddedUrl;
@@ -66,6 +69,7 @@ namespace UrlChanger.Controllers
         }
 
         // GET: LinksController/Edit/5
+        //[Route("/Links/Edit")]
         public ActionResult Edit(int id)
         {
             Url url = databaseRepo.Urls.GetRecord(id);
@@ -77,6 +81,7 @@ namespace UrlChanger.Controllers
         // POST: LinksController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Route("/Links/Edit")]
         public ActionResult Edit(Url url)
         {
             try
@@ -101,6 +106,7 @@ namespace UrlChanger.Controllers
         // POST: LinksController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Route("/Links/Delete")]
         public ActionResult Delete(int id)
         {
             try

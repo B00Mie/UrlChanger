@@ -6,7 +6,7 @@ using UrlChanger.Models;
 
 namespace UrlChanger.Abstract
 {
-    public interface IUserService
+    public interface IJWTUserService
     {
         string Authenticate(User user);
         User GetById(int id);

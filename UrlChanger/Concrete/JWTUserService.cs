@@ -1,24 +1,22 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using UrlChanger.Abstract;
 using UrlChanger.Helpers;
 using UrlChanger.Models;
 
 namespace UrlChanger.Concrete
 {
-    public class UserService : IUserService
+    public class JWTUserService : IJWTUserService
     {
         private readonly AppSettings _appSettings;
         private readonly DatabaseRepo _context;
 
-        public UserService(IOptions<AppSettings> appSettings, ApplicationContext context)
+        public JWTUserService(IOptions<AppSettings> appSettings, ApplicationContext context)
         {
             _appSettings = appSettings.Value;
             _context = new DatabaseRepo(context);

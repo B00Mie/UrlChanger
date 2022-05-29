@@ -14,9 +14,9 @@ namespace UrlChanger.Controllers
     [Authorize]
     public class UsersController : Controller
     {
-        private IUserService _userService;
+        private IJWTUserService _userService;
         private DatabaseRepo repo;
-        public UsersController(IUserService userService, ApplicationContext context)
+        public UsersController(IJWTUserService userService, ApplicationContext context)
         {
             _userService = userService;
             repo = new DatabaseRepo(context);

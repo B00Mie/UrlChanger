@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using UrlChanger.Models;
@@ -20,19 +19,6 @@ namespace UrlChanger.Controllers
 
         public IActionResult Index()
         {
-            var mapping = appContext.Model.FindEntityType(typeof(Url));
-            string schema = mapping.GetSchema();
-            string table = mapping.GetTableName();
-
-            bool hasChanges = appContext.ChangeTracker.HasChanges();
-
-            int updates = appContext.SaveChanges();
-            return View();
-        }
-
-        public IActionResult FormatLink(string url)
-        {
-
             return View();
         }
 

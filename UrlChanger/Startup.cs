@@ -34,6 +34,7 @@ namespace UrlChanger
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppSettings>(Configuration.GetSection("JWT"));
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(o=> 
             {
@@ -59,10 +60,20 @@ namespace UrlChanger
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
 
 
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IJWTManagerRepository, JWTManagerRepository>();
+            services.AddScoped<IJWTUserService, JWTUserService>();
 
             services.AddControllersWithViews();
+
+
+            services.AddSwaggerGen(o =>
+            {
+                o.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Url Changer",
+                    Version = "v1",
+                    Description = "My implementation of bit.ly service"
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,6 +106,14 @@ namespace UrlChanger
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            #region SwaggerConfigure
+            app.UseSwagger();
+            app.UseSwaggerUI(o =>
+            {
+                o.SwaggerEndpoint("/swagger/v1/swagger.json","Url Changer v1");
+            });
+            #endregion
 
             app.UseEndpoints(endpoints =>
             {
