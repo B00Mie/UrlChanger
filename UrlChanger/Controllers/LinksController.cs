@@ -28,7 +28,7 @@ namespace UrlChanger.Controllers
             return View(data);
         }
         // GET: LinksController/Create
-        [Route("/Links/Create")]
+        //[Route("/Links/Create")]
         public ActionResult Create()
         {
             return View();
@@ -89,7 +89,7 @@ namespace UrlChanger.Controllers
                 Url urlOriginal = databaseRepo.Urls.GetRecord(url.Id);
                 if (url.UrlOriginal != urlOriginal.UrlOriginal)
                 {
-                    url.UrlModded = FormatString(url.UrlOriginal.AbsoluteUri);
+                    url.UrlModded = Helpers.ShortenUrl.Shorten();
                     databaseRepo.Urls.UpdateRecord(url);
                     databaseRepo.Save();
                 }
@@ -122,19 +122,6 @@ namespace UrlChanger.Controllers
             }
         }
 
-        private string FormatString(string url)
-        {
-            Random random = new Random();
-            string result = "";
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            int length = 7;
-            char[] randomStringArray = Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray();
-
-            result += String.Concat(randomStringArray.TakeWhile(char.IsLetterOrDigit));
-
-            return result;
-
-
-        }
+        
     }
 }
